@@ -1,5 +1,5 @@
 name: simple-scan
-version: git
+adopt-info: simple-scan
 summary: Document Scanning Application
 description: |
   A really easy way to scan both documents and photos from a scanner (e.g. a flatbed scanner).
@@ -87,6 +87,10 @@ parts:
       - python-scour
       - valac
       - zlib1g-dev
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version $(git describe --tags --abbrev=10)
+        
   libs:
     plugin: nil
     stage-packages:
