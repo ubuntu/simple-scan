@@ -6,7 +6,7 @@ description: |
 
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict
-base: core18
+base: core20
 
 slots:
   # for GtkApplication registration
@@ -21,14 +21,13 @@ apps:
       - network
       - network-control
       - home
-      - gsettings
       - hardware-observe
       - mount-observe
       - system-observe
       - io-ports-control
       - raw-usb
     command: usr/bin/simple-scan
-    extensions: [gnome-3-28]
+    extensions: [ gnome-3-38 ]
     desktop: usr/share/applications/simple-scan.desktop
     environment:
       GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
@@ -39,7 +38,7 @@ parts:
     source-type: git
     source-tag: upstream/1.0.27
     plugin: autotools
-    configflags: [--prefix=/snap/simple-scan/current/usr, --with-api-spec=no]
+    autotools-configure-parameters: [--prefix=/snap/simple-scan/current/usr, --with-api-spec=no]
     organize:
       snap/simple-scan/current/usr: usr
     build-packages:
@@ -47,9 +46,7 @@ parts:
       - autoconf
       - chrpath
       - dh-systemd
-      - gettext
       - libavahi-client-dev
-      - libcups2-dev
       - libgphoto2-dev
       - libieee1284-3-dev
       - libjpeg-dev
@@ -65,28 +62,19 @@ parts:
     after: [libsane]
     source: https://gitlab.gnome.org/GNOME/simple-scan.git
     source-type: git
+    source-tag: '40.6'
     plugin: meson
     meson-parameters: [--prefix=/usr]
     organize:
       snap/simple-scan/current/usr: usr
     build-packages:
       - desktop-file-utils
-      - gettext
       - gnome-common
       - intltool
-      - itstool
-      - libcairo2-dev
       - libcolord-dev
-      - libdbus-glib-1-dev
-      - libglib2.0-dev
-      - libgtk-3-dev
-      - libgdk-pixbuf2.0-dev
       - libgusb-dev
       - libpackagekit-glib2-dev
       - libsane-dev
-      - python-scour
-      - valac
-      - zlib1g-dev
     override-pull: |
       snapcraftctl pull
       snapcraftctl set-version $(git describe --tags --abbrev=10)
