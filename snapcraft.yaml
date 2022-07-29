@@ -48,6 +48,7 @@ parts:
     source-type: git
     source-tag: '42.1'
     plugin: meson
+    parse-info: [usr/share/metainfo/simple-scan.appdata.xml]
     meson-parameters:
       - --prefix=/usr
     build-packages:
