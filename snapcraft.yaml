@@ -58,9 +58,6 @@ parts:
       - libcolord-dev
       - libgusb-dev
       - libpackagekit-glib2-dev
-    override-pull: |
-      craftctl default
-      craftctl set version=$(git describe --tags --abbrev=10)
 
   libs:
     plugin: nil
