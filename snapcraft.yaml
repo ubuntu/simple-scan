@@ -6,7 +6,7 @@ description: |
 
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict
-base: core20
+base: core22
 
 slots:
   # for GtkApplication registration
@@ -14,7 +14,7 @@ slots:
     interface: dbus
     bus: session
     name: org.gnome.SimpleScan
- 
+
 apps:
   simple-scan:
     plugs:
@@ -27,7 +27,7 @@ apps:
       - io-ports-control
       - raw-usb
     command: usr/bin/simple-scan
-    extensions: [ gnome-3-38 ]
+    extensions: [ gnome ]
     desktop: usr/share/applications/simple-scan.desktop
     environment:
       GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
@@ -36,37 +36,21 @@ parts:
   libsane:
     source: https://salsa.debian.org/debian/sane-backends.git
     source-type: git
-    source-tag: upstream/1.0.27
+    source-tag: 'upstream/1.0.27'
     plugin: autotools
-    autotools-configure-parameters: [--prefix=/snap/simple-scan/current/usr, --with-api-spec=no]
-    organize:
-      snap/simple-scan/current/usr: usr
-    build-packages:
-      - autotools-dev
-      - autoconf
-      - chrpath
-      - dh-systemd
-      - libavahi-client-dev
-      - libgphoto2-dev
-      - libieee1284-3-dev
-      - libjpeg-dev
-      - libltdl3-dev
-      - libsystemd-dev
-      - libtiff-dev
-      - libusb-1.0-0-dev
-      - pkg-config
-      - po-debconf
-      - xutils-dev
+    autotools-configure-parameters:
+      - --prefix=/usr
+      - --with-api-spec=no
 
   simple-scan:
     after: [libsane]
     source: https://gitlab.gnome.org/GNOME/simple-scan.git
     source-type: git
-    source-tag: '40.6'
+    source-tag: '42.1'
     plugin: meson
-    meson-parameters: [--prefix=/usr]
-    organize:
-      snap/simple-scan/current/usr: usr
+    parse-info: [usr/share/metainfo/simple-scan.appdata.xml]
+    meson-parameters:
+      - --prefix=/usr
     build-packages:
       - desktop-file-utils
       - gnome-common
@@ -74,14 +58,20 @@ parts:
       - libcolord-dev
       - libgusb-dev
       - libpackagekit-glib2-dev
-      - libsane-dev
-    override-pull: |
-      snapcraftctl pull
-      snapcraftctl set-version $(git describe --tags --abbrev=10)
-        
+
   libs:
     plugin: nil
     stage-packages:
       - libgusb2
       - libpackagekit-glib2-18
       - libieee1284-3
+
+  cleanup:
+    after: [ libs ]
+    plugin: nil
+    build-snaps: [core22, gtk-common-themes, gnome-42-2204]
+    override-prime: |
+      set -eux
+      for snap in "core22" "gtk-common-themes" "gnome-42-2204"; do
+        cd "/snap/$snap/current" && find . -type f,l -name *.so.* -exec rm -f "$CRAFT_PRIME/{}" \;
+      done
