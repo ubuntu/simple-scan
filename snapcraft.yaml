@@ -57,7 +57,7 @@ parts:
     meson-parameters:
       - --prefix=/usr
     override-build: |
-      sed -i.bak -e 's|Icon=org.gnome.SimpleScan$|Icon=${SNAP}/meta/gui/org.gnome.SimpleScan.svg|g' $CRAFT_PART_SRC/data/org.gnome.SimpleScan.desktop.in
+      sed -i.bak -e 's|Icon=org.gnome.SimpleScan$|Icon=${SNAP}/meta/gui/org.gnome.SimpleScan.svg|g' $CRAFT_PART_SRC/data/simple-scan.desktop.in
       mkdir -p $CRAFT_PART_INSTALL/meta/gui/
       cp $CRAFT_PART_SRC/data/icons/hicolor/scalable/org.gnome.SimpleScan.svg $CRAFT_PART_INSTALL/meta/gui/
       craftctl default
