@@ -34,9 +34,13 @@ apps:
 
 parts:
   libsane:
+# ext: updatesnap
+#   version-format:
+#     format: 'upstream/%M.%m.%R'
     source: https://salsa.debian.org/debian/sane-backends.git
     source-type: git
     source-tag: 'upstream/1.0.27'
+    source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
       - --prefix=/usr
@@ -47,6 +51,7 @@ parts:
     source: https://gitlab.gnome.org/GNOME/simple-scan.git
     source-type: git
     source-tag: '42.1'
+    source-depth: 1
     plugin: meson
     parse-info: [usr/share/metainfo/simple-scan.appdata.xml]
     meson-parameters:
