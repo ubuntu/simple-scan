@@ -26,6 +26,10 @@ apps:
       - system-observe
       - io-ports-control
       - raw-usb
+      #- cups
+      #- cups-control
+      - avahi-observe
+      - avahi-control
     command: usr/bin/simple-scan
     extensions: [ gnome ]
     desktop: usr/share/applications/simple-scan.desktop
@@ -68,6 +72,8 @@ parts:
       - libcolord-dev
       - libgusb-dev
       - libpackagekit-glib2-dev
+    stage-packages:
+      - sane-airscan
 
   libs:
     plugin: nil
