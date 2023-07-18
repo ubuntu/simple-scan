@@ -29,7 +29,8 @@ apps:
       #- cups
       #- cups-control
       - avahi-observe
-      - avahi-control
+      #- avahi-control
+      - browser-support
     command: usr/bin/simple-scan
     extensions: [ gnome ]
     desktop: usr/share/applications/simple-scan.desktop
@@ -49,6 +50,9 @@ parts:
     autotools-configure-parameters:
       - --prefix=/usr
       - --with-api-spec=no
+      - --with-avahi
+    organize:
+      snap/simple-scan/current/usr: usr
 
   simple-scan:
     after: [libsane]
@@ -74,6 +78,7 @@ parts:
       - libpackagekit-glib2-dev
     stage-packages:
       - sane-airscan
+      #- libsane
 
   libs:
     plugin: nil
