@@ -8,12 +8,29 @@ grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict
 base: core22
 
+# this is not used or needed for anything other than to trigger automatic
+# installation of the cups snap via "default-provider: cups"
+plugs:
+  foo-install-cups:
+    interface: content
+    content: foo
+    default-provider: cups
+    target: $SNAP_DATA/foo
+
 slots:
   # for GtkApplication registration
   simple-scan:
     interface: dbus
     bus: session
     name: org.gnome.SimpleScan
+
+# Make our libsane find the SANE backends (scanner drivers)
+layout:
+  /etc:
+    bind: $SNAP/etc
+  /usr/lib/sane:
+    bind: $SNAP/usr/lib/sane
+
 
 apps:
   simple-scan:
@@ -26,10 +43,8 @@ apps:
       - system-observe
       - io-ports-control
       - raw-usb
-      #- cups
-      #- cups-control
+      - cups
       - avahi-observe
-      #- avahi-control
       - browser-support
     command: usr/bin/simple-scan
     extensions: [ gnome ]
@@ -40,19 +55,60 @@ apps:
 parts:
   libsane:
 # ext: updatesnap
-#   version-format:
-#     format: 'upstream/%M.%m.%R'
-    source: https://salsa.debian.org/debian/sane-backends.git
+    source: https://gitlab.com/sane-project/backends.git
     source-type: git
-    source-tag: 'upstream/1.0.27'
+    source-tag: '1.2.1'
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
       - --prefix=/usr
+      - --sysconfdir=/etc
       - --with-api-spec=no
       - --with-avahi
+    build-packages:
+      # Everything of the build dependencies of the sane-backends
+      # Debian package ...
+      - libavahi-client-dev
+      - libcups2-dev
+      - libcurl4-gnutls-dev
+      - libgphoto2-dev
+      - libieee1284-3-dev
+      - libjpeg-dev
+      - libltdl3-dev
+      - libpoppler-glib-dev
+      - libsnmp-dev
+      - libtiff-dev
+      - libusb-1.0-0-dev
+      - libxml2-dev
+      - python3-minimal
+    stage-packages:
+      - libexif12
+      - libgphoto2-6
+      - libgphoto2-port12
+      - libsnmp40
     organize:
       snap/simple-scan/current/usr: usr
+
+  libsane-airscan:
+# ext: updatesnap
+    after: [libsane]
+    source: https://github.com/alexpevzner/sane-airscan
+    source-type: git
+    source-tag: 0.99.27
+    source-depth: 1
+    plugin: make
+    make-parameters:
+      - prefix=/usr
+      - sysconfdir=/etc
+      - libdir=/usr/lib
+    build-packages:
+      # Everything of the build dependencies of the sane-airscan
+      # Debian package ...
+      - libavahi-client-dev
+      - libavahi-common-dev
+      - libjpeg-turbo8-dev
+      - libpng-dev
+      - libxml2-dev
 
   simple-scan:
     after: [libsane]
@@ -76,9 +132,6 @@ parts:
       - libcolord-dev
       - libgusb-dev
       - libpackagekit-glib2-dev
-    stage-packages:
-      - sane-airscan
-      #- libsane
 
   libs:
     plugin: nil
