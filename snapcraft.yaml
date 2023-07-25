@@ -8,15 +8,6 @@ grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict
 base: core22
 
-# this is not used or needed for anything other than to trigger automatic
-# installation of the cups snap via "default-provider: cups"
-plugs:
-  foo-install-cups:
-    interface: content
-    content: foo
-    default-provider: cups
-    target: $SNAP_DATA/foo
-
 slots:
   # for GtkApplication registration
   simple-scan:
@@ -36,16 +27,7 @@ apps:
   simple-scan:
     plugs:
       - network
-      - network-control
       - home
-      - hardware-observe
-      - mount-observe
-      - system-observe
-      - io-ports-control
-      - raw-usb
-      - cups
-      - avahi-observe
-      - browser-support
     command: usr/bin/simple-scan
     extensions: [ gnome ]
     desktop: usr/share/applications/simple-scan.desktop
