@@ -36,16 +36,11 @@ apps:
   simple-scan:
     plugs:
       - network
-      - network-control
       - home
-      - hardware-observe
-      - mount-observe
-      - system-observe
-      - io-ports-control
-      - raw-usb
       - cups
+      - usb-raw
+      - hardware-observe
       - avahi-observe
-      - browser-support
     command: usr/bin/simple-scan
     extensions: [ gnome ]
     desktop: usr/share/applications/simple-scan.desktop
