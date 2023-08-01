@@ -38,7 +38,7 @@ apps:
       - network
       - home
       - cups
-      #- raw-usb   #comment out until store-request approved: https://forum.snapcraft.io/t/auto-connect-request-for-simple-scan/36173
+      - raw-usb   #This will need manual connection
       - hardware-observe
       - avahi-observe
     command: usr/bin/simple-scan
