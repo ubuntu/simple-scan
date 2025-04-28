@@ -113,7 +113,7 @@ parts:
     source-tag: '46.0'
     source-depth: 1
     plugin: meson
-    parse-info: [usr/share/metainfo/simple-scan.appdata.xml]
+    parse-info: [usr/share/metainfo/org.gnome.SimpleScan.appdata.xml]
     meson-parameters:
       - --prefix=/usr
     override-build: |
