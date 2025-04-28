@@ -72,6 +72,7 @@ parts:
       - libltdl3-dev
       - libpoppler-glib-dev
       - libsnmp-dev
+      - libsystemd-dev
       - libtiff-dev
       - libusb-1.0-0-dev
       - libxml2-dev
