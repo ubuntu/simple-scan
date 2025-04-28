@@ -90,7 +90,7 @@ parts:
     after: [libsane]
     source: https://github.com/alexpevzner/sane-airscan
     source-type: git
-    source-tag: '0.99.29'
+    source-tag: '0.99.34'
     source-depth: 1
     plugin: make
     make-parameters:
