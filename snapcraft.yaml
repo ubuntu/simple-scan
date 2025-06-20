@@ -110,7 +110,7 @@ parts:
     after: [libsane]
     source: https://gitlab.gnome.org/GNOME/simple-scan.git
     source-type: git
-    source-tag: '46.0'
+    source-tag: '48.1'
     source-depth: 1
     plugin: meson
     parse-info: [usr/share/metainfo/org.gnome.SimpleScan.appdata.xml]
