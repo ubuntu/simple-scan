@@ -1,12 +1,13 @@
 name: simple-scan
 adopt-info: simple-scan
 summary: Document Scanning Application
+version: 49.1
 description: |
   A really easy way to scan both documents and photos from a scanner (e.g. a flatbed scanner).
 
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict
-base: core22
+base: core24
 
 # this is not used or needed for anything other than to trigger automatic
 # installation of the cups snap via "default-provider: cups"
@@ -43,7 +44,7 @@ apps:
       - avahi-observe
     command: usr/bin/simple-scan
     extensions: [ gnome ]
-    desktop: usr/share/applications/simple-scan.desktop
+    desktop: usr/share/applications/org.gnome.SimpleScan.desktop
     environment:
       GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
 
@@ -52,7 +53,7 @@ parts:
 # ext: updatesnap
     source: https://gitlab.com/sane-project/backends.git
     source-type: git
-    source-tag: '1.3.1'
+    source-tag: '1.4.0'
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -90,7 +91,7 @@ parts:
     after: [libsane]
     source: https://github.com/alexpevzner/sane-airscan
     source-type: git
-    source-tag: '0.99.34'
+    source-tag: '0.99.36'
     source-depth: 1
     plugin: make
     make-parameters:
@@ -110,14 +111,14 @@ parts:
     after: [libsane]
     source: https://gitlab.gnome.org/GNOME/simple-scan.git
     source-type: git
-    source-tag: '48.1'
+    source-tag: '49.1'
     source-depth: 1
     plugin: meson
     parse-info: [usr/share/metainfo/org.gnome.SimpleScan.appdata.xml]
     meson-parameters:
       - --prefix=/usr
     override-build: |
-      sed -i.bak -e 's|Icon=org.gnome.SimpleScan$|Icon=${SNAP}/meta/gui/org.gnome.SimpleScan.svg|g' $CRAFT_PART_SRC/data/simple-scan.desktop.in
+      sed -i.bak -e 's|Icon=org.gnome.SimpleScan$|Icon=${SNAP}/meta/gui/org.gnome.SimpleScan.svg|g' $CRAFT_PART_SRC/data/org.gnome.SimpleScan.desktop.in
       mkdir -p $CRAFT_PART_INSTALL/meta/gui/
       cp $CRAFT_PART_SRC/data/icons/hicolor/scalable/org.gnome.SimpleScan.svg $CRAFT_PART_INSTALL/meta/gui/
       craftctl default
@@ -139,9 +140,9 @@ parts:
   cleanup:
     after: [ libs ]
     plugin: nil
-    build-snaps: [core22, gtk-common-themes, gnome-42-2204]
+    build-snaps: [core24, gtk-common-themes, gnome-46-2404]
     override-prime: |
       set -eux
-      for snap in "core22" "gtk-common-themes" "gnome-42-2204"; do
+      for snap in "core24" "gtk-common-themes" "gnome-46-2404"; do
         cd "/snap/$snap/current" && find . -type f,l -name *.so.* -exec rm -f "$CRAFT_PRIME/{}" \;
       done
