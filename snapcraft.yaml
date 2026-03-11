@@ -136,6 +136,7 @@ parts:
       - libgusb2
       - libpackagekit-glib2-18
       - libieee1284-3t64
+      - libgphoto2-6t64
 
   cleanup:
     after: [ libs ]
