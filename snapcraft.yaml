@@ -137,6 +137,7 @@ parts:
       - libpackagekit-glib2-18
       - libieee1284-3t64
       - libgphoto2-6t64
+      - libsnmp40t64
 
   cleanup:
     after: [ libs ]
