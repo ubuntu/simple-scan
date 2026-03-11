@@ -138,6 +138,7 @@ parts:
       - libieee1284-3t64
       - libgphoto2-6t64
       - libsnmp40t64
+      - libgphoto2-port12t64
 
   cleanup:
     after: [ libs ]
