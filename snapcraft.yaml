@@ -80,9 +80,9 @@ parts:
       - python3-minimal
     stage-packages:
       - libexif12
-      - libgphoto2-6
-      - libgphoto2-port12
-      - libsnmp40
+      - libgphoto2-6t64
+      - libgphoto2-port12t64
+      - libsnmp40t64
     organize:
       snap/simple-scan/current/usr: usr
 
